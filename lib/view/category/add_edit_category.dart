@@ -31,7 +31,12 @@ class _AddEditCategoryState extends State<AddEditCategory> {
       bottomNavigationBar: NoteWidget().bottonSave(
         onTap: () async {
           NoteDataCon()
-              .insertCategory(category: CategoryModel(name: controller.text));
+              .insertCategory(category: CategoryModel(name: controller.text))
+              .then((value) {
+            if (value) {
+              Navigator.pop(context);
+            }
+          });
         },
       ),
     );

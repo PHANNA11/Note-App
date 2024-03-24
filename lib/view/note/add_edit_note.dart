@@ -1,7 +1,10 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:intl/intl.dart';
 import 'package:note_app/model/category_model.dart';
+import 'package:note_app/model/note_model.dart';
+import 'package:note_app/utility/database/NoteDataCon.dart';
 import 'package:note_app/view/category/add_edit_category.dart';
 import 'package:note_app/view/widget/note_widget.dart';
 import 'package:note_app/view/widget/text_field_widget.dart';
@@ -14,10 +17,7 @@ class AddEditNote extends StatefulWidget {
 }
 
 class _AddEditNoteState extends State<AddEditNote> {
-  List<CategoryModel> categorys = [
-    CategoryModel(id: 32, name: "personal"),
-    CategoryModel(id: 22, name: "Teamwork")
-  ];
+  List<CategoryModel> categorys = [];
   TextEditingController titleController = TextEditingController();
   TextEditingController bodyController = TextEditingController();
 
@@ -45,11 +45,37 @@ class _AddEditNoteState extends State<AddEditNote> {
     '#3e3e3f'
   ];
 
+  getDataBase() async {
+    await NoteDataCon().getCategory().then((value) {
+      setState(() {
+        categorys = value;
+      });
+      if (categorys.isEmpty) {
+        categorys = [CategoryModel(name: '')];
+      }
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getDataBase();
+  }
+
   @override
   Widget build(BuildContext context) {
+    // getDataBase();
     return Scaffold(
       appBar: AppBar(
         title: const Text('New Note'),
+        actions: [
+          IconButton(
+              onPressed: () async {
+                await getDataBase();
+              },
+              icon: const Icon(Icons.refresh))
+        ],
       ),
       body: Column(
         children: [
@@ -251,8 +277,22 @@ class _AddEditNoteState extends State<AddEditNote> {
         ],
       ),
       bottomNavigationBar: NoteWidget().bottonSave(
-        onTap: () {
-          debugPrint('Add note');
+        onTap: () async {
+          await NoteDataCon()
+              .insertNote(
+                  note: NoteModel(
+                      name: titleController.text,
+                      description: bodyController.text,
+                      date: DateFormat('yyyy-MM-dd : hh:mm')
+                          .format(DateTime.now())
+                          .toString(),
+                      colorCode: selectColor,
+                      category: selectCategoryntroller.text))
+              .then((value) {
+            if (value) {
+              Navigator.pop(context);
+            }
+          });
         },
       ),
     );

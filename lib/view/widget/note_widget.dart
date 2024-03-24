@@ -31,7 +31,7 @@ class NoteWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  DateFormat('yyyy-MM-dd : hh:mm').format(note.date!),
+                  note.date!,
                 ),
                 Text(
                   note.category!,

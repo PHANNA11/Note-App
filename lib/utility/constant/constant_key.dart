@@ -10,5 +10,6 @@ class Entity {
   String noteTitle = 'note_title';
   String noteDesctription = 'note_desc';
   String codeColor = 'code_color';
+  String categoryOfNote = 'category_note';
   String date = 'date';
 }

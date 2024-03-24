@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:note_app/model/note_model.dart';
+import 'package:note_app/utility/database/NoteDataCon.dart';
 import 'package:note_app/view/note/add_edit_note.dart';
 import 'package:note_app/view/widget/note_widget.dart';
 
@@ -11,80 +12,22 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<NoteModel> listNode = [
-    NoteModel(
-      id: 12,
-      name: 'Flutter Dev',
-      description: 'sedrftyubnkml,;.',
-      category: 'person',
-      date: DateTime.now(),
-      colorCode: '#F08080',
-    ),
-    NoteModel(
-      id: 1,
-      name: 'Swift Dev',
-      description: 'sedrftyubnkml,;.',
-      category: 'person',
-      date: DateTime.now(),
-      colorCode: '#FFFACD',
-    ),
-    NoteModel(
-      id: 12,
-      name: 'React native Dev',
-      description: 'sedrftyubnkml,;.',
-      category: 'Teamwork',
-      date: DateTime.now(),
-      colorCode: '#FFC0CB',
-    ),
-    NoteModel(
-      id: 12,
-      name: 'Flutter Dev',
-      description: 'sedrftyubnkml,;.',
-      category: 'person',
-      date: DateTime.now(),
-      colorCode: '#F08080',
-    ),
-    NoteModel(
-      id: 1,
-      name: 'Swift Dev',
-      description: 'sedrftyubnkml,;.',
-      category: 'person',
-      date: DateTime.now(),
-      colorCode: '#FFFACD',
-    ),
-    NoteModel(
-      id: 12,
-      name: 'React native Dev',
-      description: 'sedrftyubnkml,;.',
-      category: 'Teamwork',
-      date: DateTime.now(),
-      colorCode: '#FFC0CB',
-    ),
-    NoteModel(
-      id: 12,
-      name: 'Flutter Dev',
-      description: 'sedrftyubnkml,;.',
-      category: 'person',
-      date: DateTime.now(),
-      colorCode: '#F08080',
-    ),
-    NoteModel(
-      id: 1,
-      name: 'Swift Dev',
-      description: 'sedrftyubnkml,;.',
-      category: 'person',
-      date: DateTime.now(),
-      colorCode: '#FFFACD',
-    ),
-    NoteModel(
-      id: 12,
-      name: 'React native Dev',
-      description: 'sedrftyubnkml,;.',
-      category: 'Teamwork',
-      date: DateTime.now(),
-      colorCode: '#FFC0CB',
-    )
-  ];
+  List<NoteModel> listNode = [];
+  getDataBase() async {
+    await NoteDataCon().getNote().then((value) {
+      setState(() {
+        listNode = value;
+      });
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getDataBase();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
