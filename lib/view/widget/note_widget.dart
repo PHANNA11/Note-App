@@ -34,7 +34,7 @@ class NoteWidget {
                   note.date!,
                 ),
                 Text(
-                  note.category!,
+                  note.category!.toString(),
                 ),
               ],
             )

@@ -287,7 +287,7 @@ class _AddEditNoteState extends State<AddEditNote> {
                           .format(DateTime.now())
                           .toString(),
                       colorCode: selectColor,
-                      category: selectCategoryntroller.text))
+                      category: categoryModel!.name))
               .then((value) {
             if (value) {
               Navigator.pop(context);
